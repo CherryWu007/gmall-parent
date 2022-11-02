@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.gmall.product.mapper.BaseAttrInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.atguigu.gmall.product.entity.BaseAttrInfo">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="attrName" column="attr_name" jdbcType="VARCHAR"/>
+        <result property="categoryId" column="category_id" jdbcType="BIGINT"/>
+        <result property="categoryLevel" column="category_level" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,attr_name,category_id,
+        category_level
+    </sql>
+
+    <!--1、把表中的每一行记录都对应new一个BaseAttrInfo 封装结果
+        new BaseAttrInfo(id,attrName,categoryId,categoryLevel)
+    -->
+    <!--告诉mybatis，封装BaseAttrInfo按照如下规则-->
+    <resultMap id="AttrNameAndValueRM" type="com.atguigu.gmall.product.entity.BaseAttrInfo">
+        <!--主键一定用id声明 new BaseAttrInfo(...,attrValueList[new BaseAttrValue])-->
+        <id property="id" column="id"></id>
+        <!--JavaBean的属性名和数据库符合驼峰命名关系，就可以省略-->
+        <!--<result property="attrName" column="attr_name"></result>
+        <result property="categoryId" column="category_id"></result>
+        <result property="categoryLevel" column="category_level"></result>-->
+        <collection property="attrValueList"
+                    ofType="com.atguigu.gmall.product.entity.BaseAttrValue"
+        autoMapping="true">
+            <id property="id" column="vid"></id>
+            <!--<result property="valueName" column="value_name"></result>
+            <result property="attrId" column="attr_id"></result>-->
+        </collection>
+    </resultMap>
+    <select id="getAttrsAndValueByCategory" resultMap="AttrNameAndValueRM">
+        select bai.*
+        bav.id vid,
+        bav.value_name,
+        bav.attr_id
+        from base_attr_info bai
+        left join base_attr_value bav on bai.id = bav.attr_id
+        <where>
+            <if test="c1id !=0">
+                (bai.category_id =#{c1id} and bai.category_level = 1)
+            </if>
+            <if test="c2id !=0">
+                or(bai.category_id =#{c2id} and bai.category_level = 1)
+            </if>
+            <if test="c3id !=0">
+                or(bai.category_id =#{c3id} and bai.category_level = 1)
+            </if>
+        </where>
+
+
+    </select>
+</mapper>

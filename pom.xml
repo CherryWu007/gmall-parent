@@ -6,7 +6,8 @@
     <modules>
         <module>common</module>
         <module>model</module>
-        <module>service</module>
+        <module>services</module>
+        <module>server-gateway</module>
     </modules>
 
 
@@ -36,7 +37,7 @@
         <fastdfs.version>1.27.0.0</fastdfs.version>
         <lombok.version>1.18.10</lombok.version>
     </properties>
-    binlog-ignore-db=nacos_config
+
     <!--配置dependencyManagement锁定依赖的版本 并不是实际的依赖。-->
     <dependencyManagement>
         <dependencies>

@@ -1,0 +1,17 @@
+server:
+  port: 8001
+spring:
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    url: jdbc:mysql://192.168.2.108:3306/gmall_product?useSSL=false
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+
+# 自定义好minio的各种参数
+app:
+  minio:
+    bucket: mall
+    endpoint: http://192.168.2.108:9000
+    access-key: admin
+    secret-key: admin123456

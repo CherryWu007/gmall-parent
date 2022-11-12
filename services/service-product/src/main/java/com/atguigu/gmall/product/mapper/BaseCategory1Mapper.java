@@ -1,9 +1,11 @@
 package com.atguigu.gmall.product.mapper;
 
+import com.atguigu.gmall.item.vo.CategoryView;
 import com.atguigu.gmall.product.entity.BaseCategory1;
 import com.atguigu.gmall.weball.vo.CategoryVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,4 +24,6 @@ import java.util.List;
 public interface BaseCategory1Mapper extends BaseMapper<BaseCategory1> {
 
     List<CategoryVo> getCategoryTreeData();
+
+    CategoryView getSkuCategoryView(@Param("c3Id") Long c3Id);
 }

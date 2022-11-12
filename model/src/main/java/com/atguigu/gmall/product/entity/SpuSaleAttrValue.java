@@ -46,4 +46,9 @@ public class SpuSaleAttrValue implements Serializable {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+    /**
+     * 前端显示用
+     */
+    @TableField(exist = false)
+    private Integer isChecked;
 }

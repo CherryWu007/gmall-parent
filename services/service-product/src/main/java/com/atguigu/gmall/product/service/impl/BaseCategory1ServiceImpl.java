@@ -1,5 +1,6 @@
 package com.atguigu.gmall.product.service.impl;
 
+import com.atguigu.gmall.item.vo.CategoryView;
 import com.atguigu.gmall.product.entity.BaseCategory1;
 import com.atguigu.gmall.product.mapper.BaseCategory1Mapper;
 import com.atguigu.gmall.product.service.BaseCategory1Service;
@@ -32,5 +33,10 @@ public class BaseCategory1ServiceImpl extends ServiceImpl<BaseCategory1Mapper, B
     public List<CategoryVo> getCategoryTreeData() {
 
         return baseCategory1Mapper.getCategoryTreeData();
+    }
+
+    @Override
+    public CategoryView getSkuCategoryView(Long c3Id) {
+        return baseCategory1Mapper.getSkuCategoryView(c3Id);
     }
 }

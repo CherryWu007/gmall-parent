@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,6 +23,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 //@EnableDiscoveryClient
 //@EnableCircuitBreaker
 @SpringCloudApplication
+@EnableFeignClients//开启feign远程调用
 public class WebAllApplication {
     public static void main(String[] args) {
         SpringApplication.run(WebAllApplication.class,args);

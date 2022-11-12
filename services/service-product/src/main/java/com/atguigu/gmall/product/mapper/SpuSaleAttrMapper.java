@@ -1,6 +1,7 @@
 package com.atguigu.gmall.product.mapper;
 
 import com.atguigu.gmall.product.entity.SpuSaleAttr;
+import com.atguigu.gmall.product.vo.SkuSaleAttrValueVo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import feign.Param;
 
@@ -15,6 +16,10 @@ import java.util.List;
 public interface SpuSaleAttrMapper extends BaseMapper<SpuSaleAttr> {
 
     List<SpuSaleAttr> getSpuSaleAttrAndValueList(@Param("spuId") Long spuId);
+
+    List<SpuSaleAttr> getSpuSaleAttrAndValueWithOrder(@Param("spuId") Long spuId, @Param("skuId") Long skuId);
+
+    List<SkuSaleAttrValueVo> getSkuValueJson(@Param(("spuId")) Long spuId);
 }
 
 

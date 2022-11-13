@@ -49,6 +49,9 @@ public class ItemController {
 
         //4、valuesSkuJson:json字符串
         model.addAttribute("valuesSkuJson",detailVo.getValuesSkuJson());
+
+        //5、商品价格
+        model.addAttribute("price",detailVo.getPrice());
         return "item/index";
     }
 }

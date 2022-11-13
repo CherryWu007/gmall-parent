@@ -13,6 +13,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -101,5 +102,16 @@ public class SkuRpcController {
         String json= spuSaleAttrService.getSkuValueJson(spuId);
 
         return Result.ok(json);
+    }
+
+    /**
+     * 查询商品价格
+     * @param skuId
+     * @return
+     */
+    @GetMapping("skuInfo/price/{skuId}")
+    public Result<BigDecimal> getSkuPrice(@PathVariable("skuId")Long skuId){
+        BigDecimal price=  skuInfoService.getSkuRealTimePrice(skuId);
+        return Result.ok(price);
     }
 }

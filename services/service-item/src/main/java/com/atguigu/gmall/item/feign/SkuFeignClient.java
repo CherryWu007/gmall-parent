@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -65,4 +66,12 @@ public interface SkuFeignClient {
      */
     @GetMapping("skuInfo/valuejson/{spuId}")
     Result<String> getSkuValueJson(@PathVariable("spuId") Long spuId);
+
+    /**
+     * 查询商品价格
+     * @param skuId
+     * @return
+     */
+    @GetMapping("skuInfo/price/{skuId}")
+    Result<BigDecimal> getSkuPrice(@PathVariable("skuId")Long skuId);
 }

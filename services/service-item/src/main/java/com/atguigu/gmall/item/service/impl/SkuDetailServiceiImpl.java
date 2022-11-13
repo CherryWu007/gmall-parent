@@ -52,6 +52,10 @@ public class SkuDetailServiceiImpl implements SkuDetailService {
         //4、sku各种组合的json
         String skuValueJson = skuFeignClient.getSkuValueJson(skuInfo.getSpuId()).getData();
         skuDetailVo.setValuesSkuJson(skuValueJson);
+
+        //查询商品价格
+        Result<BigDecimal> skuPrice = skuFeignClient.getSkuPrice(skuId);
+        skuDetailVo.setPrice(skuPrice.getData());
         return skuDetailVo;
     }
 }

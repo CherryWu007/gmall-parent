@@ -1,4 +1,4 @@
-package com.atguigu.gmall.item.spc;
+package com.atguigu.gmall.item.rpc;
 
 import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.item.service.SkuDetailService;

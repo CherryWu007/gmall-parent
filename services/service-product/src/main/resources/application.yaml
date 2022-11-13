@@ -1,12 +1,46 @@
 server:
   port: 8001
+
 spring:
-  datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:mysql://192.168.2.108:3306/gmall_product?useSSL=false
-    username: root
-    password: 123456
-    driver-class-name: com.mysql.jdbc.Driver
+  shardingsphere:
+    datasource:
+      names: ds_master,ds_s1,ds_s2
+      ds_master:
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:mysql://192.168.2.108:3306/gmall_product?useSSL=false
+        username: root
+        password: 123456
+        driver-class-name: com.mysql.jdbc.Driver
+      ds_s1:
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:mysql://192.168.2.108:3307/gmall_product?useSSL=false
+        username: root
+        password: 123456
+        driver-class-name: com.mysql.jdbc.Driver
+      ds_s2:
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:mysql://192.168.2.108:3308/gmall_product?useSSL=false
+        username: root
+        password: 123456
+        driver-class-name: com.mysql.jdbc.Driver
+    rules:
+      readwrite-splitting:
+        data-sources:
+          rw-ds:
+            type: Static
+            load-balancer-name: 'haha'
+            props:
+              read-data-source-names: ds_s1,ds_s2
+              write-data-source-name: ds_master
+        load-balancers:
+          haha:
+            type: 'ROUND_ROBIN'
+#  datasource:
+#    type: com.zaxxer.hikari.HikariDataSource
+#    url: jdbc:mysql://192.168.2.108:3306/gmall_product?useSSL=false
+#    username: root
+#    password: 123456
+#    driver-class-name: com.mysql.jdbc.Driver
 
 # 自定义好minio的各种参数
 app:

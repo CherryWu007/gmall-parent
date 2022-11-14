@@ -81,13 +81,14 @@ public class SkuRpcController {
 
     /**
      * 查询某个sku对应的分类的完整路径
-     * @param c3Id
+     * @param skuId
      * @return
      */
-    @GetMapping("skuinfo/categoryview/{c3Id}")
-    public Result<CategoryView> getSkuCategoryView(@PathVariable("c3Id")Long c3Id){
-
-        CategoryView categoryView= baseCategory1Service.getSkuCategoryView(c3Id);
+    //1.categoryView :{category1Id,category1Name,category2Id,category2Name,category3Id,category3Name}
+    @GetMapping("getCategoryView/{skuId}")
+    public Result getCategoryView(@PathVariable("skuId") Long skuId){
+        Long c3Id = skuInfoService.getById(skuId).getCategory3Id();
+        CategoryView categoryView = baseCategory1Service.getCategoryView(c3Id);
         return Result.ok(categoryView);
     }
 

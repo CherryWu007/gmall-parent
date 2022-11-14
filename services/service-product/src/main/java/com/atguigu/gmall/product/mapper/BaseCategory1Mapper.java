@@ -23,7 +23,7 @@ import java.util.List;
 @Mapper //让SpringBoot启动扫描进去
 public interface BaseCategory1Mapper extends BaseMapper<BaseCategory1> {
 
-    List<CategoryVo> getCategoryTreeData();
+    List<CategoryVo> getCategoryVo();
 
-    CategoryView getSkuCategoryView(@Param("c3Id") Long c3Id);
+    CategoryView getCategoryView(@Param("c3Id") Long c3Id);
 }

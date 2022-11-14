@@ -40,4 +40,10 @@ public class SkuController {
         skuInfoService.saveSkuInfo(vo);
         return Result.ok();
     }
+
+    @DeleteMapping("deletesku/{skuId}")
+    public Result deleteSku(@PathVariable("skuId") Long skuId){
+        skuInfoService.removeSku(skuId);
+        return Result.ok();
+    }
 }

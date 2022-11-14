@@ -28,14 +28,12 @@ public class CategoryRpcController {
     BaseCategory1Service baseCategory1Service;
 
     /**
-     * 展示分类的树形结构数据
+     * 查询三级目录给前端调用
      * @return
      */
-    @GetMapping("Category/tree")
+    @GetMapping("category/tree")
     public Result getCategoryTreeData(){
-
-        List<CategoryVo> vos=baseCategory1Service.getCategoryTreeData();
-
-        return Result.ok(vos);
+        List<CategoryVo> list =  baseCategory1Service.getCategoryVo();
+        return Result.ok(list);
     }
 }

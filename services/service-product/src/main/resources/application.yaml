@@ -2,6 +2,10 @@ server:
   port: 8001
 
 spring:
+ # redis:已经抽取到nacos中
+ #   host: 192.168.2.108
+ #   port: 6379
+ #   password: wu123456!
   shardingsphere:
     datasource:
       names: ds_master,ds_s1,ds_s2

@@ -19,7 +19,7 @@ import java.util.List;
  */
 
 public interface BaseCategory1Service extends IService<BaseCategory1> {
-    List<CategoryVo> getCategoryTreeData();
+    List<CategoryVo> getCategoryVo();
 
-    CategoryView getSkuCategoryView(Long c3Id);
+    CategoryView getCategoryView(Long c3Id);
 }

@@ -1,5 +1,6 @@
 package com.atguigu.gmall.product.service.impl;
 
+import com.atguigu.gmall.common.constant.RedisConst;
 import com.atguigu.gmall.product.entity.SkuAttrValue;
 import com.atguigu.gmall.product.entity.SkuImage;
 import com.atguigu.gmall.product.entity.SkuSaleAttrValue;
@@ -13,6 +14,7 @@ import com.atguigu.gmall.product.service.SkuInfoService;
 import com.atguigu.gmall.product.mapper.SkuInfoMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +38,8 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
 
     @Autowired
     private SkuSaleAttrValueService skuSaleAttrValueService;
+
+    StringRedisTemplate redisTemplate;
     @Override
     @Transactional
     public void saveSkuInfo(SkuInfoVo vo) {
@@ -83,6 +87,9 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
         }
         skuSaleAttrValueService.saveBatch(values);
 
+        //TODO 把skuId同步到位图
+        redisTemplate.opsForValue().setBit(RedisConst.SKUID_BITMAP_KEY,skuId,true);
+
     }
 
     @Override
@@ -90,6 +97,22 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
         //select price from sku_info where id=skuId
 
         return baseMapper.BigDecimal(skuId);
+    }
+
+    @Override
+    public List<Long> getSkuIds() {
+        return baseMapper.getSkuIds();
+
+
+    }
+
+    @Override
+    public void removeSku(Long skuId) {
+        removeById(skuId);
+        //TODO 删除sku的所有有关数据
+
+        //设置此位为0，就是删除
+        redisTemplate.opsForValue().setBit(RedisConst.SKUID_BITMAP_KEY,skuId,false);
     }
 }
 

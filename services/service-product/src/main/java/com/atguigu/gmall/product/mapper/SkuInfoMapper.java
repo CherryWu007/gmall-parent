@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import feign.Param;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
 * @author 85118
@@ -19,6 +20,12 @@ public interface SkuInfoMapper extends BaseMapper<SkuInfo> {
      * @return
      */
     BigDecimal BigDecimal(@Param("skuId") Long skuId);
+
+    /**
+     * 获取所有skuId
+     * @return
+     */
+    List<Long> getSkuIds();
 }
 
 

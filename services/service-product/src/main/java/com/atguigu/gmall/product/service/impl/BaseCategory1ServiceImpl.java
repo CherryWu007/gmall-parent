@@ -2,6 +2,7 @@ package com.atguigu.gmall.product.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.atguigu.gmall.cache.annotation.MallCache;
 import com.atguigu.gmall.common.constant.RedisConst;
 import com.atguigu.gmall.item.vo.CategoryView;
 import com.atguigu.gmall.product.entity.BaseCategory1;

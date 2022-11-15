@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.atguigu.gmall.cache.MallCacheAutoConfiguration,\
+  com.atguigu.gmall.cache.config.RedissonClientAutoConfiguration

@@ -55,12 +55,16 @@ public class SkuDetailServiceiImpl implements SkuDetailService {
             boolean f=cacheService.existSkuIdByBitMap(skuId);
 
             if (f) {
-                log.info("[]商品，位图判定有，正在查询。。。",skuId);
-                //2、bitmap中有，说明数据库有，只是缓存没有
-                //3、缓存没有，需要回源
-                SkuDetailVo skuDetailVo = getSkuDetailVoFormRpc(skuId);
-                //4、保存数据，不管数据库有没有，无条件保存：null值缓存，解决一般的缓存穿透问题
-                cacheService.saveCacheData(cacheKey,skuDetailVo);
+                //容易出现击穿风险：加锁解决
+                SkuDetailVo skuDetailVo =null;
+
+                    log.info("[]商品，位图判定有，正在查询。。。",skuId);
+                    //2、bitmap中有，说明数据库有，只是缓存没有
+                    //3、缓存没有，需要回源
+                    skuDetailVo = getSkuDetailVoFormRpc(skuId);
+                    //4、保存数据，不管数据库有没有，无条件保存：null值缓存，解决一般的缓存穿透问题
+                    cacheService.saveCacheData(cacheKey,skuDetailVo);
+
                 return skuDetailVo;
             }
 

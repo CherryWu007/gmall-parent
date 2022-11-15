@@ -1,0 +1,30 @@
+lock.lock();
+    lock(-1【leaseTime：锁的释放时间】, null【时间单位】, false【中断标志】);
+        Long ttl = tryAcquire(-1【waitTime等锁时间】, leaseTime【-1】, unit, threadId); 【返回null代表加锁成功】
+            tryAcquireAsync(waitTime【-1】, leaseTime【-1】, unit, threadId);
+               1）：leaseTime > 0 有指定锁的释放时间
+                    tryLockInnerAsync(waitTime【-1】, leaseTime【你传的】, unit, threadId, RedisCommands.EVAL_LONG);
+               2）：leaseTime <= 0 没有指定锁时间; 内部默认锁时间【30s】
+                    tryLockInnerAsync(waitTime, internalLockLeaseTime, TimeUnit.MILLISECONDS, threadId, RedisCommands.EVAL_LONG);
+
+               异步加锁：【执行加锁lua】
+                    准备好的一段lua脚本完全执行即可
+
+               异步加锁完成后：【续期】
+                1）、leaseTime > 0； internalLockLeaseTime = unit.toMillis(leaseTime);
+                2）、leaseTime <= 0； 不指定锁时间就会触发自动续期
+                    【scheduleExpirationRenewal(threadId);】一旦加锁成功以后，开始重新设置锁的过期时间
+                    自动续期：================================================================
+                        renewExpiration();  利用延迟任务
+                            internalLockLeaseTime / 3： 1/3的看门狗时间以后；10s执行一个任务；
+
+                            //lua脚本设置过期时间。设置满的 internalLockLeaseTime；
+                            CompletionStage<Boolean> future = renewExpirationAsync(threadId);
+                            future.whenComplete(()->{
+                                renewExpiration(); //递归调用
+                            })
+                    ========================================================================
+
+lock.unlock()
+       1、删除redis的锁；    Lua脚本
+       2、取消自动续期的任务； 把map中保存的需要执行的任务移除

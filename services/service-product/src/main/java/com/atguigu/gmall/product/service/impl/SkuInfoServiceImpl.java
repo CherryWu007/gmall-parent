@@ -2,16 +2,14 @@ package com.atguigu.gmall.product.service.impl;
 
 import com.atguigu.gmall.cache.service.CacheService;
 import com.atguigu.gmall.common.constant.RedisConst;
-import com.atguigu.gmall.product.entity.SkuAttrValue;
-import com.atguigu.gmall.product.entity.SkuImage;
-import com.atguigu.gmall.product.entity.SkuSaleAttrValue;
-import com.atguigu.gmall.product.service.SkuAttrValueService;
-import com.atguigu.gmall.product.service.SkuImageService;
-import com.atguigu.gmall.product.service.SkuSaleAttrValueService;
+import com.atguigu.gmall.feignclients.search.SearchFeignClient;
+import com.atguigu.gmall.item.vo.CategoryView;
+import com.atguigu.gmall.product.entity.*;
+import com.atguigu.gmall.product.service.*;
 import com.atguigu.gmall.product.vo.SkuInfoVo;
+import com.atguigu.gmall.search.entity.Goods;
+import com.atguigu.gmall.search.entity.SearchAttr;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.atguigu.gmall.product.entity.SkuInfo;
-import com.atguigu.gmall.product.service.SkuInfoService;
 import com.atguigu.gmall.product.mapper.SkuInfoMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,7 +41,16 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
     @Autowired
     private SkuSaleAttrValueService skuSaleAttrValueService;
 
+    @Autowired
     StringRedisTemplate redisTemplate;
+
+    @Autowired
+    SearchFeignClient searchFeignClient;
+    @Autowired
+    BaseTrademarkService baseTrademarkService;
+
+    @Autowired
+    BaseCategory1Service baseCategory1Service;
     @Override
     @Transactional
     public void saveSkuInfo(SkuInfoVo vo) {
@@ -121,6 +129,53 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
 
 
 
+    }
+
+    @Override
+    public void cancelSale(Long skuId) {
+        //修改状态
+        baseMapper.updateSkuSaleStatus(skuId,0);
+        //删除es中的商品
+        searchFeignClient.deleteGoods(skuId);
+    }
+
+    @Override
+    public void unSale(Long skuId) {
+        //修改状态
+        baseMapper.updateSkuSaleStatus(skuId,1);
+        //删除es中的商品 TODO
+        Goods goods=prepareGoods(skuId);
+        searchFeignClient.saveGoods(goods);
+    }
+
+    private Goods prepareGoods(Long skuId) {
+        SkuInfo sku=getById(skuId);
+        Goods goods=new Goods();
+        goods.setId(skuId);
+        goods.setDefaultImg(sku.getSkuDefaultImg());
+        goods.setTitle(sku.getSkuName());
+        goods.setPrice(sku.getPrice().doubleValue());
+        goods.setCreateTime(new Date());
+        //查询品牌
+        BaseTrademark trademark = baseTrademarkService.getById(sku.getTmId());
+        goods.setTmId(sku.getTmId());
+        goods.setTmName(trademark.getTmName());
+        goods.setTmLogoUrl(trademark.getLogoUrl());
+        //分类信息
+        CategoryView categoryView = baseCategory1Service.getCategoryView(sku.getCategory3Id());
+        goods.setCategory1Id(categoryView.getCategory1Id());
+        goods.setCategory1Name(categoryView.getCategory1Name());
+        goods.setCategory2Id(categoryView.getCategory2Id());
+        goods.setCategory2Name(categoryView.getCategory2Name());
+        goods.setCategory3Id(categoryView.getCategory3Id());
+        goods.setCategory3Name(categoryView.getCategory3Name());
+        goods.setHotScore(0L);
+        //商品平台属性
+        List<SearchAttr> attrs= skuAttrValueService.getSkuAttrNameAndValue(skuId);
+        goods.setAttrs(attrs);
+
+
+        return goods;
     }
 }
 

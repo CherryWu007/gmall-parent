@@ -26,4 +26,16 @@ public interface SkuInfoService extends IService<SkuInfo> {
     List<Long> getSkuIds();
 
     void removeSku(Long skuId);
+
+    /**
+     * 下架商品
+     * @param skuId
+     */
+    void cancelSale(Long skuId);
+
+    /**
+     * 上架
+     * @param skuId
+     */
+    void unSale(Long skuId);
 }

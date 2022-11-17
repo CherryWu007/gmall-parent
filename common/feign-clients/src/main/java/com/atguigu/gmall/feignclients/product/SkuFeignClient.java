@@ -1,4 +1,4 @@
-package com.atguigu.gmall.item.feign;
+package com.atguigu.gmall.feignclients.product;
 
 import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.item.vo.CategoryView;
@@ -22,6 +22,8 @@ import java.util.List;
  * @ClassName : SkuFeignClient.java
  * @createTime : 2022/11/12 15:49
  * @Description :
+ * 1)service-product 以后这个组件会关系一堆配置，以Feignclient的名字为单位做的配置
+ * 2) 、service-product 代表这个 Feignclient 远程要调用的微服务
  */
 @FeignClient("service-product")
 @RequestMapping("/api/inner/rpc/product/")

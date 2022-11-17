@@ -1,4 +1,4 @@
-package com.atguigu.gmall.weball.feign;
+package com.atguigu.gmall.feignclients.product;
 
 import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.weball.vo.CategoryVo;

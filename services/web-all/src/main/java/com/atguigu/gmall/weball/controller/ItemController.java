@@ -2,7 +2,7 @@ package com.atguigu.gmall.weball.controller;
 
 import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.item.vo.SkuDetailVo;
-import com.atguigu.gmall.weball.feign.SkuDetailFeignClient;
+import com.atguigu.gmall.feignclients.item.SkuDetailFeignClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

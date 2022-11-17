@@ -1,4 +1,4 @@
-package com.atguigu.gmall.weball.feign;
+package com.atguigu.gmall.feignclients.item;
 
 import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.item.vo.SkuDetailVo;

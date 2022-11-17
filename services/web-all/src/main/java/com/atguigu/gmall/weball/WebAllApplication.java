@@ -23,7 +23,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 //@EnableDiscoveryClient
 //@EnableCircuitBreaker
 @SpringCloudApplication
-@EnableFeignClients//开启feign远程调用
+@EnableFeignClients(basePackages = {"com.atguigu.gmall.feignclients"})//开启feign远程调用
 public class WebAllApplication {
     public static void main(String[] args) {
         SpringApplication.run(WebAllApplication.class,args);

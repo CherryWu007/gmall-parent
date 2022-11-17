@@ -26,6 +26,28 @@ public class SkuController {
     @Autowired
     private SkuInfoService skuInfoService;
 
+    /**
+     * 上架商品
+     * @return
+     */
+    @GetMapping("/onSale/{skuId}")
+    public Result unSale(@PathVariable("skuId") Long skuId){
+        skuInfoService.unSale(skuId);
+        return Result.ok();
+    }
+
+    /**
+     * 下架商品
+     * @param skuId
+     * @return
+     */
+    @GetMapping("/cancelSale/{skuId}")
+    public Result cancelSale(@PathVariable("skuId") Long skuId){
+        skuInfoService.cancelSale(skuId);
+        return Result.ok();
+
+    }
+
     @GetMapping("list/{pn}/{ps}")
     public Result list(@PathVariable("pn") Long pn, @PathVariable("ps") Long ps){
 

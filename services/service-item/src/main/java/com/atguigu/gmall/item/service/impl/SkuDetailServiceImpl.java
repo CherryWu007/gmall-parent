@@ -1,16 +1,14 @@
 package com.atguigu.gmall.item.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.atguigu.gmall.cache.service.CacheService;
 import com.atguigu.gmall.common.constant.RedisConst;
 import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.cache.annotation.MallCache;
-import com.atguigu.gmall.item.feign.SkuFeignClient;
+import com.atguigu.gmall.feignclients.product.SkuFeignClient;
 
 import com.atguigu.gmall.item.service.SkuDetailService;
 import com.atguigu.gmall.item.vo.CategoryView;
 import com.atguigu.gmall.item.vo.SkuDetailVo;
-import com.atguigu.gmall.item.vo.SkuValueJson;
 import com.atguigu.gmall.product.entity.SkuImage;
 import com.atguigu.gmall.product.entity.SkuInfo;
 import com.atguigu.gmall.product.entity.SpuSaleAttr;
@@ -20,9 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;

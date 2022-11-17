@@ -14,10 +14,10 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  * @Package : com.atguigu.gmall.item
  * @ClassName : ItemApplication.java
  * @createTime : 2022/11/12 14:10
- * @Description :
+ * @Description :@EnableFeignClients:开启远程调用，只扫描主类所在的包和子包
  */
 @SpringCloudApplication
-@EnableFeignClients
+@EnableFeignClients(basePackages = "com.atguigu.gmall.feignclients.product")
 @EnableThreadPool
 @EnableAspectJAutoProxy
 public class ItemApplication {

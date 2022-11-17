@@ -22,6 +22,18 @@ public class EsTest {
     NewRepository newRepository;
 
     @Test
+    public void test03(){
+        List<News> newsList = newRepository.findAllByPublisherNameEquals("cherrywu");
+        newsList.forEach(System.out::println);
+
+        System.out.println("=================");
+
+        Date date = new Date(System.currentTimeMillis());
+        List<News> before = newRepository.findAllByViewCountGreaterThanAndPublishDateBefore(50, date);
+        before.forEach(System.out::println);
+    }
+
+    @Test
     void test02(){
         newRepository.deleteById(1l);
         System.out.println("删除成功...");
@@ -30,7 +42,7 @@ public class EsTest {
     @Test
     void test01(){
         News news = new News(1l, "明天隔离解除", "dc", new Date(), 99);
-        News news1 = new News(2l, "明天隔离解除", "lfy", new Date(), 99);
+        News news1 = new News(2l, "明天隔离解除", "cherrywu", new Date(), 99);
         newRepository.save(news);
         newRepository.save(news1);
         System.out.println("保存成功....");

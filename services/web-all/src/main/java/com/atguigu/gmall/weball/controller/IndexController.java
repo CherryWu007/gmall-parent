@@ -1,7 +1,7 @@
 package com.atguigu.gmall.weball.controller;
 
 import com.atguigu.gmall.common.result.Result;
-import com.atguigu.gmall.weball.feign.CategoryFeignClient;
+import com.atguigu.gmall.feignclients.product.CategoryFeignClient;
 import com.atguigu.gmall.weball.vo.CategoryVo;
 
 

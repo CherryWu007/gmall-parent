@@ -4,6 +4,7 @@ import com.atguigu.gmall.product.entity.SkuInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import feign.Param;
 
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -26,6 +27,14 @@ public interface SkuInfoMapper extends BaseMapper<SkuInfo> {
      * @return
      */
     List<Long> getSkuIds();
+
+    /**
+     *
+     * @param skuId
+     * @param i
+     */
+    void updateSkuSaleStatus(@Param("skuId") Long skuId, @Param("status") int i);
+
 }
 
 

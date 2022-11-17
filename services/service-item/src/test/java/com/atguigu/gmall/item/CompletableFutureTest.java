@@ -19,7 +19,7 @@ public class CompletableFutureTest {
     ThreadPoolExecutor executor;
 
     @Test
-    public void all() throws ExecutionException, InterruptedException {
+    public void all() {
         CompletableFuture<Void> info = CompletableFuture.runAsync(() -> {
             sleep3s(1000);
             System.out.println("查基本信息");

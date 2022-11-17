@@ -1,5 +1,6 @@
 package com.atguigu.gmall.product.service.impl;
 
+import com.atguigu.gmall.cache.service.CacheService;
 import com.atguigu.gmall.common.constant.RedisConst;
 import com.atguigu.gmall.product.entity.SkuAttrValue;
 import com.atguigu.gmall.product.entity.SkuImage;
@@ -35,6 +36,8 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
     private SkuImageService skuImageService;
     @Autowired
     private SkuAttrValueService skuAttrValueService;
+    @Autowired
+    private CacheService cacheService;
 
     @Autowired
     private SkuSaleAttrValueService skuSaleAttrValueService;
@@ -87,7 +90,7 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
         }
         skuSaleAttrValueService.saveBatch(values);
 
-        //TODO 把skuId同步到位图
+        //把skuId同步到位图
         redisTemplate.opsForValue().setBit(RedisConst.SKUID_BITMAP_KEY,skuId,true);
 
     }
@@ -109,10 +112,15 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoMapper, SkuInfo>
     @Override
     public void removeSku(Long skuId) {
         removeById(skuId);
-        //TODO 删除sku的所有有关数据
 
+        //双删缓存
+        cacheService.delayDoubleDel(RedisConst.SKU_INFO_CACHE_KEY);
+        //删除sku的所有有关数据
         //设置此位为0，就是删除
         redisTemplate.opsForValue().setBit(RedisConst.SKUID_BITMAP_KEY,skuId,false);
+
+
+
     }
 }
 

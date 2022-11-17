@@ -1,0 +1,39 @@
+1、启动异步 CompletableFuture
+    1.1 runAsync() 返回 CompletableFuture<Void>；
+        1）、runAsync(runnable)： 运行一个异步;  使用默认的ForkJoinPool跑这个异步；有oom风险
+        2）、runAsync(runnable,executor)：运行一个异步； 使用自己指定的线程池
+
+    1.2 supplyAsync() 返回 CompletableFuture<Integer>;
+                      获取结果：Future对象.get()获取这个异步结果
+        1）、supplyAsync(Supplier<T>);  运行一个异步;使用默认的ForkJoinPool跑这个异步；有oom风险
+        2）、supplyAsync(Supplier<T>，executor); 运行一个异步； 使用自己指定的线程池
+
+    //前一步一定会返回一个future对象。
+
+2、编排：【拿到前一步的对象】
+    1）、future.thenRun()系列： future完成后接下来干什么     【无参数、无返回】
+        1）、thenRun(runnable)：        接下来做这个任务、无需异步新线程、复用之前future的线程或主线程；
+        2）、thenRunAsync(runnable)：   接下来做这个任务、需要启动新线程、从默认的ForkJoin线程池中拿一个
+        3）、thenRunAsync(runnable,executor)： 接下来做这个任务、需要启动新线程、从指定线程池中拿一个
+
+    2）、future.thenAccept()系列： 可以接受上一步的结果进行再处理  【有参数、无返回】
+        1）、thenAccept(consumer)：     接下来做这个任务、无需异步新线程、
+        2）、thenAcceptAsync(consumer)：接下来做这个任务、需要异步新线程、从默认的ForkJoin线程池中拿一个
+        3）、thenAcceptAsync(consumer,executor)：接下来做这个任务、需要异步新线程、从指定线程池中拿一个
+
+    3）、future.thenApply()系列：  可以接受上一步的结果进行再处理、并能返回新的值  【有参数、有返回】
+        1）、thenApply(function)：      接下来做这个任务、无需异步新线程、
+        2）、thenApplyAsync(function):  接下来做这个任务、需要异步新线程、从默认的ForkJoin线程池中拿一个
+        3）、thenApplyAsync(function,executor)：接下来做这个任务、需要异步新线程、从指定线程池中拿一个
+
+    //以上链式调用和非链式调用不是一个意思；链式就按链顺序执行,非链式就是异步执行
+
+3、状态感知
+    whenComplete(BiConsumer)
+    whenCompleteAsync(BiConsumer)
+    whenCompleteAsync(BiConsumer,executor)
+
+    exceptionally(function)；错误兜底；一旦上一个异步发生错误以后，返回一个默认数据
+
+4、组合多任务
+    allOf、anyOf

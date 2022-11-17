@@ -99,7 +99,7 @@ public class CacheAspect {
                 }
                 if (b){
                     //4、开始回源           【防止缓存击穿】 lock:sku:info:50
-                    //TODO 4）不同业务锁也不一样
+                    // 4）不同业务锁也不一样
                     lock = redissonClient.getLock("lock:" + cacheKey);
                     //5、加分布式锁
                     lockStatus = lock.tryLock();
@@ -108,7 +108,7 @@ public class CacheAspect {
                         retVal = pjp.proceed(); //执行目标方法。【回源完成】
                         //8、放入缓存
                         //==========动态指定数据的过期时间============
-                        //TODO 5）数据给缓存中放的时候有可能要根据不同业务指定不一样的过期时间
+                        // 5）数据给缓存中放的时候有可能要根据不同业务指定不一样的过期时间
                         long ttl = annotation.ttl();
                         TimeUnit unit = annotation.unit();
                         cacheService.saveCacheData(cacheKey,retVal,ttl,unit);

@@ -8,3 +8,7 @@ spring:
   elasticsearch:
     rest:
       uris: http://192.168.2.108:9200
+# 打开追踪器，看发送请求的详细数据
+logging:
+  level:
+    tracer: trace

@@ -17,4 +17,6 @@ public class RedisConst {
     public static final String SKU_INFO_CACHE_KEY = "sku:info:";
     public static final String LOCK_PREFIX = "lock:";
     public static final String CATEGORY_CACHE_KEY = "categorys";
+    public static final long PAGE_SIZE = 10;
+    public static final String HOT_SCORE = "hotScore";
 }

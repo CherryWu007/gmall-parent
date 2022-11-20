@@ -27,4 +27,6 @@ public interface SearchService {
     void saveGoods(Goods goods);
 
     void deleteGoods(Long skuId);
+
+    void updateScore(Long skuId, Long increment);
 }

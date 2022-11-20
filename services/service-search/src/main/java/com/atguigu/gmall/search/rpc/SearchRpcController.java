@@ -53,4 +53,11 @@ public class SearchRpcController {
         SearchRespVo respVo=searchService.search(vo);
         return Result.ok(respVo);
     }
+
+    //增加热度
+    @GetMapping("/update/hotscore/{skuId}/{increment}")
+    public Result updateScore(@PathVariable Long skuId,@PathVariable Long increment){
+        searchService.updateScore(skuId,increment);
+        return Result.ok();
+    }
 }

@@ -45,13 +45,13 @@ public class SearchRespVo {
     }
     //3、排序、分页信息
     OrderMapVo orderMap;
-    Integer pageNo;//当前页
-    Integer totalPages;//总页码
+    Integer pageNo=1;//当前页
+    Long totalPages;//总页码
 
     @Data
     public static class OrderMapVo{
-        String type;//排序类型  (1-2) 1=>综合排序 2=>价格排序
-        String sort;//升降序   (asc-desc)
+        String type="1";//排序类型  (1-2) 1=>综合排序 2=>价格排序
+        String sort="asc";//升降序   (asc-desc)
     }
 
     //当前所在的url地址信息

@@ -15,4 +15,10 @@ import com.atguigu.gmall.item.vo.SkuDetailVo;
 
 public interface SkuDetailService {
     SkuDetailVo getSkuDetail(Long skuId);
+
+    /**
+     * 更新商品热度
+     * @param skuId
+     */
+    void upDateHotScore(Long skuId);
 }

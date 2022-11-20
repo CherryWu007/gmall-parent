@@ -17,7 +17,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
  * @Description :@EnableFeignClients:开启远程调用，只扫描主类所在的包和子包
  */
 @SpringCloudApplication
-@EnableFeignClients(basePackages = "com.atguigu.gmall.feignclients.product")
+@EnableFeignClients(basePackages = {"com.atguigu.gmall.feignclients.product","com.atguigu.gmall.feignclients.search"})
 @EnableThreadPool
 @EnableAspectJAutoProxy
 public class ItemApplication {

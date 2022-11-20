@@ -13,6 +13,6 @@ public class SearchParamVo {
     Long category1Id;
     String trademark;
     String[] props;
-    String order;
-    Integer pageNo;
+    String order="1:asc";
+    Integer pageNo = 1;
 }

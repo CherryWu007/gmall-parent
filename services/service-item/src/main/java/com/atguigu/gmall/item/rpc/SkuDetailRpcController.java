@@ -31,6 +31,8 @@ public class SkuDetailRpcController {
         //TODO 查询商品详情要用的所有数据
 
         SkuDetailVo skuDetailVo=skuDetailService.getSkuDetail(skuId);
+        //每个商品得浏览量热度+1  累计更新  100
+        skuDetailService.upDateHotScore(skuId);
         return Result.ok(skuDetailVo);
     }
 }

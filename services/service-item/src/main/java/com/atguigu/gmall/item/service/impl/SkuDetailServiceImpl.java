@@ -6,6 +6,7 @@ import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.cache.annotation.MallCache;
 import com.atguigu.gmall.feignclients.product.SkuFeignClient;
 
+import com.atguigu.gmall.feignclients.search.SearchFeignClient;
 import com.atguigu.gmall.item.service.SkuDetailService;
 import com.atguigu.gmall.item.vo.CategoryView;
 import com.atguigu.gmall.item.vo.SkuDetailVo;
@@ -15,6 +16,7 @@ import com.atguigu.gmall.product.entity.SpuSaleAttr;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -43,11 +45,29 @@ public class SkuDetailServiceImpl implements SkuDetailService {
 
     @Autowired
     RedissonClient redissonClient;
+    @Autowired
+    StringRedisTemplate redisTemplate;
 
     @Autowired
     ThreadPoolExecutor executor;
 
 
+    @Autowired
+    SearchFeignClient searchFeignClient;
+
+    @Override
+    public void upDateHotScore(Long skuId) {
+        //返回+1后得最新值
+        //每100加一次
+        CompletableFuture.runAsync(()->{
+            Long increment = redisTemplate.opsForValue().increment(RedisConst.HOT_SCORE + skuId);
+            if(increment%100==0){
+                //给es更新最新得分
+                searchFeignClient.updateScore(skuId,increment);
+            }
+        },executor);
+
+    }
 
     /**
      * 1、缓存的key：指定成一个表达式。这样才能适配所有场景

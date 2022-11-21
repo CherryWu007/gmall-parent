@@ -102,18 +102,21 @@ public class SearchServiceImpl implements SearchService {
             }
         }*/
         //使用stream流式精简代码
-        List<SearchRespVo.AttrVo> collect = Arrays.stream(vo.getProps())
-                .map(item -> {//流中得旧元素
-            String[] split = item.split(":");
-            SearchRespVo.AttrVo attrVo = new SearchRespVo.AttrVo();
-            attrVo.setAttrId(Long.parseLong(split[0]));
-            attrVo.setAttrName(split[2]);
-            attrVo.setAttrValue(split[1]);
-            return attrVo;//返回得新元素
-        }).collect(Collectors.toList());
+        if (vo.getProps()!=null){
+            List<SearchRespVo.AttrVo> collect = Arrays.stream(vo.getProps())
+                    .map(item -> {//流中得旧元素
+                        String[] split = item.split(":");
+                        SearchRespVo.AttrVo attrVo = new SearchRespVo.AttrVo();
+                        attrVo.setAttrId(Long.parseLong(split[0]));
+                        attrVo.setAttrName(split[2]);
+                        attrVo.setAttrValue(split[1]);
+                        return attrVo;//返回得新元素
+                    }).collect(Collectors.toList());
 
 
-        respVo.setPropsParamList(collect);
+            respVo.setPropsParamList(collect);
+        }
+
 //==================面包屑完成================
         //二次检索区：品牌列表
         List<SearchRespVo.trademarkVo> trademarkList = new ArrayList<>();

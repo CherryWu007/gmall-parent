@@ -2,6 +2,7 @@ package com.atguigu.gmall.cache.aspect;
 
 import com.atguigu.gmall.cache.annotation.MallCache;
 import com.atguigu.gmall.cache.service.CacheService;
+import com.atguigu.gmall.common.constant.RedisConst;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -100,7 +101,7 @@ public class CacheAspect {
                 if (b){
                     //4、开始回源           【防止缓存击穿】 lock:sku:info:50
                     // 4）不同业务锁也不一样
-                    lock = redissonClient.getLock("lock:" + cacheKey);
+                    lock = redissonClient.getLock(RedisConst.LOCK_PREFIX + cacheKey);
                     //5、加分布式锁
                     lockStatus = lock.tryLock();
                     if (lockStatus){

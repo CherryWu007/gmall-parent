@@ -19,4 +19,6 @@ public class RedisConst {
     public static final String CATEGORY_CACHE_KEY = "categorys";
     public static final long PAGE_SIZE = 10;
     public static final String HOT_SCORE = "hotScore";
+    public static final String LOGIN_USERINFO = "key:login:user";
+    public static final long LOGIN_TTL = 7L;
 }

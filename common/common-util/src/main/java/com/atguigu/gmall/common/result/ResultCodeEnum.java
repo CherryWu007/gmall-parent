@@ -16,7 +16,11 @@ public enum ResultCodeEnum {
     PAY_RUN(205, "支付中"),
 
     LOGIN_AUTH(208, "未登陆"),
+
+    LOGIN_FORBID(2082,"拒绝访问"),
+
     PERMISSION(209, "没有权限"),
+    DENY_URL(2091,"拒绝访问"),
     SECKILL_NO_START(210, "秒杀还没开始"),
     SECKILL_RUN(211, "正在排队中"),
     SECKILL_NO_PAY_ORDER(212, "您有未支付的订单"),
@@ -28,7 +32,7 @@ public enum ResultCodeEnum {
     SECKILL_ORDER_SUCCESS(218, "下单成功"),
     COUPON_GET(220, "优惠券已经领取"),
     COUPON_LIMIT_GET(221, "优惠券已发放完毕"),
-    ;
+    LOGIN_INVAILD(2081,"乖乖账号密码错误哦");
 
     private Integer code;
 

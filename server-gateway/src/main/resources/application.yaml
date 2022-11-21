@@ -16,7 +16,33 @@ spring:
           predicates:
              - Path=/admin/product/**
 
+        - id: item_route
+          uri: lb://service-item
+          predicates:
+            - Path=/api/inner/rpc/item/**
+
+
+        - id: user_route
+          uri: lb://service-user
+          predicates:
+            - Path=/api/user/**
+
         - id: weball_router
           uri: lb://web-all
           predicates:
             - Host=**.gmall.com,gmall.com
+app:
+  auth:
+    #    不需要登陆认证直接通行的
+    login-page : http://passport.gmall.com/login.html
+    no-auth-url:
+      - /css/**  # ant风格的路径
+      - /data/**
+      - /fonts/**
+      - /img/**
+      - /js/**
+    deny-url:
+      - /api/inner/**
+    #   需要登陆认证的 未登录不能访问
+    auth-url:
+      - /order/**

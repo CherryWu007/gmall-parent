@@ -32,7 +32,8 @@ public enum ResultCodeEnum {
     SECKILL_ORDER_SUCCESS(218, "下单成功"),
     COUPON_GET(220, "优惠券已经领取"),
     COUPON_LIMIT_GET(221, "优惠券已发放完毕"),
-    LOGIN_INVAILD(2081,"乖乖账号密码错误哦");
+    LOGIN_INVAILD(2081,"乖乖账号密码错误哦"),
+    CART_SKU_NUM(3000,"购物车数量超限");
 
     private Integer code;
 

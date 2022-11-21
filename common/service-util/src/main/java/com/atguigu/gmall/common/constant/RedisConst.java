@@ -24,4 +24,6 @@ public class RedisConst {
     public static final String TOKEN = "token";
     public static final String USER_TEMPID = "tempid";
     public static final String USERINFO_ID = "uid";
+    public static final String CART_KEY = "cart:key:";
+    public static final long TEMPID_TTL = 365L;
 }

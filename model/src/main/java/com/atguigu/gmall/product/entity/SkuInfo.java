@@ -33,7 +33,7 @@ public class SkuInfo implements Serializable {
      * 价格
      */
     @TableField(value = "price")
-    private Integer price;
+    private BigDecimal price;
 
     /**
      * sku名称

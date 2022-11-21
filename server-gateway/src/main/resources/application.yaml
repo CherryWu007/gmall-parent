@@ -15,6 +15,11 @@ spring:
           uri: lb://service-product
           predicates:
              - Path=/admin/product/**
+             -
+        - id: cart_route
+          uri: lb://service-cart
+          predicates:
+            - Path=/api/cart/**
 
         - id: item_route
           uri: lb://service-item

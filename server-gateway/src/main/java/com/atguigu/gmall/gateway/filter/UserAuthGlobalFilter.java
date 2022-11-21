@@ -96,7 +96,7 @@ public class UserAuthGlobalFilter implements GlobalFilter {
         if (authCount>0) {
             //验证是否登录，没登录直接打回
             //1）拿到token数据
-            String userToken=getUserToken(exchange,RedisConst.TOKEN);
+            String userToken=getUserHeaderInfo(exchange,RedisConst.TOKEN);
             //判定token在redis中有没有
             boolean b=existLoginUser(userToken);
             //2)判断是否有token
@@ -108,7 +108,7 @@ public class UserAuthGlobalFilter implements GlobalFilter {
 
 
         //TODO 用户id透传;  如果有用户id就透传
-        String token = getUserToken(exchange, RedisConst.TOKEN);
+        String token = getUserHeaderInfo(exchange, RedisConst.TOKEN);
         //获取用户的登陆信息
         UserInfo userInfo = getLoginInfo(token);
         //普通请求不带  没带不用管
@@ -139,11 +139,14 @@ public class UserAuthGlobalFilter implements GlobalFilter {
 
 
         //return chain.filter(exchange);
+        //用户id和临时id有哪个透传哪个，都有就都传
         return tempIdAndUserInfoIdPassThrough(exchange,chain,userInfo);
     }
-    private Mono<Void> tempIdAndUserInfoIdPassThrough(ServerWebExchange exchange, GatewayFilterChain chain, UserInfo userInfo) {
+    private Mono<Void> tempIdAndUserInfoIdPassThrough(ServerWebExchange exchange,
+                                                      GatewayFilterChain chain,
+                                                      UserInfo userInfo) {
         //获取临时id的token
-        String tempId = getUserToken(exchange, "userTempId");
+        String tempId = getUserHeaderInfo(exchange, "userTempId");
         //修改exchange中的请求信息  在透传
         //新建改变请求信息的  建造者
         ServerHttpRequest.Builder builder = exchange.getRequest().mutate();
@@ -157,7 +160,13 @@ public class UserAuthGlobalFilter implements GlobalFilter {
             builder.header(RedisConst.USERINFO_ID,userInfo.getId().toString());
         }
         //构建新的servlet内的请求和响应
-        ServerWebExchange newExchange = exchange.mutate().request(builder.build()).response(exchange.getResponse()).build();
+        ServerWebExchange newExchange = exchange.mutate()
+                .request(builder.build())
+                .response(exchange.getResponse())
+                .build();
+
+
+
         return chain.filter(newExchange);
     }
 
@@ -217,7 +226,7 @@ public class UserAuthGlobalFilter implements GlobalFilter {
      * @param exchange
      * @return
      */
-    private String getUserToken(ServerWebExchange exchange,String key) {
+    private String getUserHeaderInfo(ServerWebExchange exchange,String key) {
         ServerHttpRequest request=exchange.getRequest();
         //先看cookie中有没有token
         MultiValueMap<String, HttpCookie> cookies = request.getCookies();

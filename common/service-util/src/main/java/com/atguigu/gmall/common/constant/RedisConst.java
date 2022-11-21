@@ -21,4 +21,7 @@ public class RedisConst {
     public static final String HOT_SCORE = "hotScore";
     public static final String LOGIN_USERINFO = "key:login:user";
     public static final long LOGIN_TTL = 7L;
+    public static final String TOKEN = "token";
+    public static final String USER_TEMPID = "tempid";
+    public static final String USERINFO_ID = "uid";
 }

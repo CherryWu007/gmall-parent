@@ -30,7 +30,7 @@ public class IndexController {
     @Autowired
     private CategoryFeignClient feignClient;
 
-    @GetMapping("/")
+    @GetMapping({"/","/index.html"})
     public String indexpage(Model model){
         Result<List<CategoryVo>> categoryTree = feignClient.getCategoryTree();
         //远程调用

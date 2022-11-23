@@ -1,5 +1,6 @@
 package com.atguigu.gmall.search;
 
+import com.atguigu.gmall.common.config.exception.annotion.EnableGlobalAUtoHandleException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 
@@ -14,6 +15,7 @@ import org.springframework.cloud.client.SpringCloudApplication;
  * @Description :
  */
 @SpringCloudApplication
+@EnableGlobalAUtoHandleException
 public class SearchApplication {
     public static void main(String[] args) {
         SpringApplication.run(SearchApplication.class,args);

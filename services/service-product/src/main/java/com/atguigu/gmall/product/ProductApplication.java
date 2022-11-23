@@ -1,5 +1,6 @@
 package com.atguigu.gmall.product;
 
+import com.atguigu.gmall.common.config.exception.annotion.EnableGlobalAUtoHandleException;
 import com.atguigu.gmall.common.config.minio.annotation.EnableMinio;
 import com.atguigu.gmall.common.config.swagger.annotation.EnableAppSwagger;
 import org.mybatis.spring.annotation.MapperScan;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 //@ComponentScan({"com.atguigu.gmall.common.config","com.atguigu.gmall.product"})
 @EnableMinio
 @EnableTransactionManagement
+@EnableGlobalAUtoHandleException
 @EnableAppSwagger
 @MapperScan("com.atguigu.gmall.product.mapper")
 @SpringCloudApplication

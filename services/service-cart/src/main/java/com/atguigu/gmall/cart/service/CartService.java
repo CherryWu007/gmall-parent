@@ -17,10 +17,21 @@ import java.util.List;
  */
 
 public interface CartService {
+    /**
+     * 给购物车添加一件商品
+     * @param redisCartKey
+     * @param skuId
+     * @param skuNum
+     * @return
+     */
     SkuInfo add(String redisCartKey, Long skuId, Integer skuNum);
 
     String decisionRedisKey();
 
+    /**
+     * 获取购物车所有商品
+     * @return
+     */
     List<CartInfo> cartList();
 
     void addToCart(Long skuId, Integer skuNum);
@@ -30,5 +41,6 @@ public interface CartService {
     void deleteCart(Long skuId);
 
     void deleteChecked();
+
 
 }

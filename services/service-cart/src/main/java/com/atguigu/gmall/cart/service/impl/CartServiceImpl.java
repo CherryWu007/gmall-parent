@@ -3,6 +3,7 @@ package com.atguigu.gmall.cart.service.impl;
 import com.atguigu.gmall.cart.entity.CartInfo;
 import com.atguigu.gmall.cart.service.CartService;
 import com.atguigu.gmall.common.constant.RedisConst;
+import com.atguigu.gmall.common.execption.GmallException;
 import com.atguigu.gmall.common.result.Result;
 import com.atguigu.gmall.common.util.CartUtils;
 import com.atguigu.gmall.common.util.ToJSON;
@@ -54,6 +55,9 @@ public class CartServiceImpl implements CartService {
     @Override
     public SkuInfo add(String redisCartKey, Long skuId, Integer skuNum) {
         SkuInfo skuInfo = null;
+
+        //给购物车中添加商品。 如果购物车之前没有这个商禹就是新增。如果有就是修改数量
+        // 1、以后操作redis都是string， key hk hv 都是字符串
         //查看redis是否有这个商品
         Boolean aBoolean = redisTemplate.opsForHash().hasKey(redisCartKey,skuId.toString());
         //没有就是新增
@@ -174,10 +178,13 @@ public class CartServiceImpl implements CartService {
         List<String> collect = cartInfoList.stream().filter(item -> item.getIsChecked() == 1)
                 .map(item -> item.getSkuId().toString())
                 .collect(Collectors.toList());
+        //非空判断
         if (collect!=null && collect.size() > 0){
             redisTemplate.opsForHash().delete(key,collect.toArray());
         }
     }
+
+
 
     //修改商品数量
     private void updateCartItem(String key, Long skuId, Integer skuNum) {
@@ -209,15 +216,24 @@ public class CartServiceImpl implements CartService {
             }
         }
     }
-    //决定使用的key
+
+    /**
+     * 决定用购物车哪个键
+     * 1、如果只带了tempid; 就是临时购物车
+     * 2、如果只带了token; 就是用户购物车
+     * 3、如果两个都带了，优先以用户购物车为准;如果临时购物车有商品，还要合并到用户购物车中
+     * @return
+     */
     @Override
     public String decisionRedisKey() {
         String redisKey = "";
         Long uid = CartUtils.getUid();
+        //如果有用户id，一定先用用户的
         if (uid != null) {
             redisKey = RedisConst.CART_KEY + uid;
             return redisKey;
         }
+        //是否有临时的
         String tempId = CartUtils.getTempId();
         if (!StringUtils.isEmpty(tempId)) {
             redisKey = RedisConst.CART_KEY + tempId;

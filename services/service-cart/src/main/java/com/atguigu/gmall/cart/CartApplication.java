@@ -1,5 +1,6 @@
 package com.atguigu.gmall.cart;
 
+import com.atguigu.gmall.common.config.exception.annotion.EnableGlobalAUtoHandleException;
 import com.atguigu.gmall.common.config.pool.anno.EnableThreadPool;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
@@ -16,6 +17,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @Description :
  */
 @SpringCloudApplication
+@EnableGlobalAUtoHandleException
 @EnableThreadPool
 @EnableFeignClients(basePackages = "com.atguigu.gmall.feignclients.product")
 public class CartApplication {

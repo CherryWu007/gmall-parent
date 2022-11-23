@@ -34,7 +34,9 @@ public class CartController {
     /**
      * 任何容器类，如果长期一直在内存中，就一定要看考虑，容器内部的元素用完就删
      */
-    public static Map<Thread,HttpServletRequest> threadInfo=new ConcurrentHashMap<>();
+//    public static Map<Thread,HttpServletRequest> threadInfo=new ConcurrentHashMap<>();
+    //在同一个线程里面共享数据
+//    public static ThreadLocal<HttpServletRequest> threadLocal= new ThreadLocal<>();
 
     @GetMapping("/cart.html")
     public String cart(){
@@ -46,14 +48,16 @@ public class CartController {
                       @RequestParam("skuNum")Integer skuNum,
                       Model model,
                       HttpServletRequest request){
-        threadInfo.put(Thread.currentThread(),request);
+//        threadInfo.put(Thread.currentThread(),request);
+//        threadLocal.set(request);//把指定数据共享给当前线程中
         //远程调用购物车
         String tempid = request.getHeader("tempid");
         //远程调用购物车服务，商品加入购物车
         // 这次远程调用由于拦截器放好了之前这个request头里面的数据，所以对方收到的请求头中又用户信息
         Result<SkuInfo> add = cartFeignClient.add(skuId, skuNum);
         //用完就删，就不会OOM
-        threadInfo.remove(Thread.currentThread());
+//        threadInfo.remove(Thread.currentThread());
+//        threadLocal.remove();
         SkuInfo skuInfo = add.getData();
         model.addAttribute("skuNum",skuNum);
         model.addAttribute("skuInfo",skuInfo);
@@ -63,6 +67,8 @@ public class CartController {
     @GetMapping("/cart/deleteChecked")
     public String deleteChecked(){
         cartFeignClient.deleteChecked();
+        //重定向如果只写 / 开始，默认会拼上服务器所在地址信息
+        //导致：令牌的cookie作用域指向的是域名，而不是服务器ip
         return "redirect:http://cart.gmall.com/cart.html";
     }
 }
